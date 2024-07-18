@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block template %}
+{% load static %}
+
+    <!-- Si el usuario esta logeado podra ver los flanes Privados -->
+    {% if request.user.is_authenticated %}
+    <h1 class="text-center">Flanes Privados</h1>
+        <div class="row">
+            {% for flan in flanes %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ flan.image_url }}" class="card-img-top" alt="{{ flan.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ flan.name }}</h5>
+                        <p class="card-text">{{ flan.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    <!-- de lo contrario se vera un mensaje pidiendole autenticarse -->
+    {% else%}
+    <div class="text-center">
+        <h1 class="">Usted no tiene Acceso a estos Flanes T_T</h1>
+        <img src="{% static 'img/tenor.gif'%}" class="text-center" alt="">
+    </div>     
+    {% endif %}
+
+{% endblock %}
