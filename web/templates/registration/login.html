@@ -9,25 +9,26 @@
       <p>Por favor inicie sesión para ver esta página.</p>
     {% endif %}
   {% endif %}
-  <form method="post" action="{% url 'login' %}">
+  
+  <h3 class="text-center">Ingresar</h3>
+ 
+  <form method="post" action="{% url 'login' %}" class="text-center">
     {% csrf_token %}
-    <table>
-      <tr>
-        <td>Usuario:</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>Contraseña:</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <button type="submit" class="btn btn-primary">Ingresar</button>
-    <input type="hidden" name="next" value="{{ next }}">
+      <div class="mb-3 text-center">
+        <div class="mb-3 text-center">Usuario:</div>
+        <div>{{ form.username }}</div>
+      </div>
+      <div class="mb-3 text-center">
+        <div class="mb-3 text-center">Contraseña:</div>
+        <div>{{ form.password }}</div>
+      </div>
+    <button type="submit" class="btn btn-primary mb-3">Ingresar</button>
+    <div><a href="{% url 'password_reset' %}">¿Olvidó su contraseña?</a></div>
   </form>
-    {% if form.errors %}
-    <p>Su nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
+  {% if form.errors %}
+  <h1 class="text-center m-3">Su nombre de usuario y contraseña no coinciden.<br> Inténtalo de nuevo.</h1>
   {% endif %}
-  <p><a href="{% url 'password_reset' %}">¿Olvidó su contraseña?</a></p>
+  
 
 {% endblock %}
 
