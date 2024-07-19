@@ -8,9 +8,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="icon" type="image/jpg" href="{% static 'img/OnlyFlans.png' %}">
     <title>{% block title%}Bienvenido a OnlyFlans{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
  </head>
 <body>
-        {% include 'header.html' %}
+        <header>
+            <div class="header-flan-container">
+                {% if flanes %}
+                    {% for img_flan in flanes %}
+                    <img src="{{ img_flan.image_url }}" class="header-flan-image fade" alt="{{ img_flan.name }}">
+                {% endfor %}
+                    {% else %}
+                <img src="{% static 'img/Cheesecake_Flan.gif' %}" class="header-flan-image" alt="Cheesecake Flan">
+                {% endif %}
+
+                <img src="{% static 'img/Only-Flans.png' %}" alt="" class="img-fluid main-logo">
+            </div>
+        </header>
         {% include 'navbar.html' %}
         <div class='container py-5'>
             {% block template %}
@@ -18,6 +31,21 @@
         </div>
         {% include 'footer.html' %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let flanImages = document.querySelectorAll('.header-flan-image');
+            
+            let index = 0;
+            function showNextImage() {
+                flanImages.forEach(img => img.classList.remove('show'));
+                flanImages[index].classList.add('show');
+                
+                index = (index + 1) % flanImages.length;
+            }
+    
+            setInterval(showNextImage, 3000);
+        });
+    </script>
 </body>
 
 </html>

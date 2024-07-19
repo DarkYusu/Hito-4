@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from .models import Flan
 from .forms import ContactFormModelForm
-from .models import Flan
+from django.contrib.auth.decorators import login_required
 
 def indice(request):
     flanes_publicos = Flan.objects.filter(is_private=False)
@@ -12,12 +12,9 @@ def indice(request):
 def acerca(request):
     return render(request, 'about.html', {})
 
-def bienvenido(request):
-    flanes_privados = Flan.objects.filter(is_private=True)
-    return render(request, 'welcome.html', {'flanes': flanes_privados})
-
 def base1(request):
-    return render(request, 'base.html', {})
+    flanes = Flan.objects.all()
+    return render(request, 'base.html', {'flanes': flanes})
 
 def success(request):
     return render(request, 'exito.html', {})
@@ -45,3 +42,12 @@ def contacto(request):
 def salir(request):
     logout(request)
     return redirect('/')
+
+@login_required
+def bienvenido(request):
+    flanes_privados = Flan.objects.filter(is_private=True)
+    return render(request, 'welcome.html', {'flanes': flanes_privados})
+
+def flan_detalle(request, slug):
+    flan = get_object_or_404(Flan, slug=slug)
+    return render(request, 'flan_detalle.html', {'flan': flan})
