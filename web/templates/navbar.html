@@ -34,7 +34,10 @@
                   <li>
                     <a class="dropdown-item" href="{% url 'add_flan' %}">Agregar Flan</a>
                   </li>
-                  
+                  <li>
+                    <a class="dropdown-item" href="{% url 'manage_flan' %}">Administrar Flanes</a>
+                  </li>
+  
                   {% endif %}
               
                   {% if request.user.is_authenticated %}

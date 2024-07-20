@@ -2,7 +2,8 @@
 {% block template %}
 <h1 class="text-center">Administrar Flanes</h1>
 <div class="container">
-    <table class="table table-bordered">
+    <a href="{% url 'add_flan' %}" class="btn btn-primary mb-3">Agregar Flan</a>
+    <table class="table">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -20,17 +21,28 @@
                 <td>{{ flan.description }}</td>
                 <td><img src="{{ flan.image_url }}" alt="{{ flan.name }}" style="width: 100px; height: auto;"></td>
                 <td>${{ flan.precio }}</td>
-                <td>{{ flan.is_private|yesno:"Sí,No" }}</td>
+                <td>{% if flan.is_private %}Sí{% else %}No{% endif %}</td>
                 <td>
-                    <form method="post" style="display:inline;" onsubmit="return confirm('¿Está seguro de que desea eliminar este flan?');">
+                    <a href="{% url 'edit_flan' slug=flan.slug %}" class="btn btn-warning btn-sm">Editar</a>
+                    <form method="post" style="display:inline;" onsubmit="return confirmDelete();">
                         {% csrf_token %}
-                        <input type="hidden" name="flan_id" value="{{ flan.id }}">
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <input type="hidden" name="delete" value="{{ flan.id }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                     </form>
                 </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay flanes disponibles.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+<script>
+    function confirmDelete() {
+        return confirm("¿Estás seguro de que deseas eliminar este flan? Esta acción no se puede deshacer.");
+    }
+</script>
 {% endblock %}
