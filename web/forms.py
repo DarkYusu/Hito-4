@@ -16,3 +16,11 @@ class ContactFormModelForm(ModelForm):
             'customer_name': 'Nombre',
             'message': 'Mensaje',
         }
+        
+
+from .models import Flan
+
+class FlanForm(forms.ModelForm):
+    class Meta:
+        model = Flan
+        fields = ['name', 'description', 'image_url', 'slug', 'is_private', 'precio']

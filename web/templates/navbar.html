@@ -30,6 +30,13 @@
             </a>
             <ul class="dropdown-menu">
                   <!-- Ajuste de Inicio de Seccion -->
+                  {% if user.is_authenticated and user.is_superuser %}
+                  <li>
+                    <a class="dropdown-item" href="{% url 'add_flan' %}">Agregar Flan</a>
+                  </li>
+                  
+                  {% endif %}
+              
                   {% if request.user.is_authenticated %}
                     <li>
                       <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>

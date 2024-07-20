@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from .models import Flan
-from .forms import ContactFormModelForm
-from django.contrib.auth.decorators import login_required
+from .forms import ContactFormModelForm, FlanForm
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 def indice(request):
     flanes_publicos = Flan.objects.filter(is_private=False)
@@ -51,3 +51,17 @@ def bienvenido(request):
 def flan_detalle(request, slug):
     flan = get_object_or_404(Flan, slug=slug)
     return render(request, 'flan_detalle.html', {'flan': flan})
+
+def is_admin(user):
+    return user.is_superuser
+
+@user_passes_test(is_admin)
+def add_flan(request):
+    if request.method == 'POST':
+        form = FlanForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')  # Redirige a la página de inicio después de guardar
+    else:
+        form = FlanForm()
+    return render(request, 'add_flan.html', {'form': form})
