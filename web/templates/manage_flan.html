@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block template %}
+<h1 class="text-center">Administrar Flanes</h1>
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Imagen</th>
+                <th>Precio</th>
+                <th>Privado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for flan in flanes %}
+            <tr>
+                <td>{{ flan.name }}</td>
+                <td>{{ flan.description }}</td>
+                <td><img src="{{ flan.image_url }}" alt="{{ flan.name }}" style="width: 100px; height: auto;"></td>
+                <td>${{ flan.precio }}</td>
+                <td>{{ flan.is_private|yesno:"Sí,No" }}</td>
+                <td>
+                    <form method="post" style="display:inline;" onsubmit="return confirm('¿Está seguro de que desea eliminar este flan?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="flan_id" value="{{ flan.id }}">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
