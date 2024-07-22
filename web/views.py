@@ -42,7 +42,7 @@ def contacto(request):
 
 def salir(request):
     logout(request)
-    return redirect('/')
+    return redirect('/welcome/')
 
 @login_required
 def bienvenido(request):
